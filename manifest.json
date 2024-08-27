@@ -1,6 +1,6 @@
 {
-  "name": "Button Stealer",
-  "description": "Steals buttons from the websites you visit. Do your usual online stuff and watch the collection of stolen buttons grow.",
+  "name": "Button Robber",
+  "description": "Robs buttons from the websites you visit. Do your usual online stuff and watch the collection of stolen buttons grow.",
   "version": "1.0.2",
   "manifest_version": 3,
   "action": {
@@ -16,21 +16,16 @@
     "48": "images/icon-light-48.png",
     "128": "images/icon-light-128.png"
   },
-  "permissions": [
-    "storage", "offscreen"
-  ],
+  "permissions": ["storage", "webNavigation"],
   "background": {
-    "service_worker": "scripts/service-worker.js",
+    "scripts": ["scripts/service-worker.js"],
     "type": "module"
   },
   "content_scripts": [
     {
-      "js": [
-        "scripts/button-stealer.js"
-      ],
-      "matches": [
-        "https://*/*"
-      ]
+      "js": ["scripts/button-stealer.js"],
+      "run_at": "document_end",
+      "matches": ["https://*/*"]
     }
   ]
 }

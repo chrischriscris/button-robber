@@ -1,4 +1,4 @@
-(() => {
+function robber() {
     const inheritable = [
         'font', 'font-family', 'font-size', 'font-style', 'font-weight', 'letter-spacing', 'line-height', 'cursor', 'azimuth', 'border-collapse',
         'border-spacing', 'caption-side', 'color', 'cursor', 'direction', 'elevation', 'empty-cells', 'font-family', 'font-size', 'font-style',
@@ -158,7 +158,7 @@
             if (elem.tagName.toLowerCase() === 'button') {
                 elem.style.setProperty('position', 'relative');
             }
-        }    
+        }
         if (elem.style.borderRadius !== '') {
             elem.style.setProperty('border-end-end-radius', '');
             elem.style.setProperty('border-end-start-radius', '');
@@ -321,8 +321,9 @@
     }
 
     const stealButton = async () => {
+        console.log("Stealing...");
         let { buttons, maximum, ignore } = await chrome.storage.local.get(['buttons', 'maximum', 'ignore']);
-        
+
         for (let i = 0; i < ignore.length; i++) {
             const listed = ignore[i].split('.');
             const hostname = window.location.hostname.split('.');
@@ -374,16 +375,10 @@
         upload.unshift(button);
         chrome.storage.local.set({ 'buttons': buttons });
         chrome.storage.local.set({ 'upload': upload });
+        console.log("Stealed!");
     }
 
-    let timeoutId = -1;
-
-    navigation.addEventListener('navigatesuccess', () => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(stealButton, 500);
-    })
-
-    timeoutId = setTimeout(stealButton, 500);
+    setTimeout(stealButton, 500);
 
     const sendColorModeToBackground = (isDark) => {
         chrome.runtime.sendMessage({
@@ -398,4 +393,6 @@
     colorSchemeDispatcher.addEventListener('change', e => {
         sendColorModeToBackground(e.matches);
     });
-})();
+};
+
+robber();
